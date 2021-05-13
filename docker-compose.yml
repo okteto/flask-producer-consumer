@@ -15,7 +15,7 @@ services:
     container_name: producer
   consumer:
     build: ./consumer
-    env_file: consumer/.env
+    env_file: consumer/dotenv
     depends_on:
       - rabbitmq
       - mongodb
