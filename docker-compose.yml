@@ -39,7 +39,7 @@ services:
       - api
     container_name: web-svc
   rabbitmq:
-    image: quay.io/bitnami/rabbitmq
+    image: rabbitmq:management
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
       - RABBITMQ_DEFAULT_PASS=rabbitmq
