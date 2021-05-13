@@ -15,7 +15,12 @@ services:
     container_name: producer
   consumer:
     build: ./consumer
-    env_file: consumer/dotenv
+    environment: 
+      - PYTHONUNBUFFERED=1
+      - RABBITMQ_USER=rabbitmq
+      - RABBITMQ_PASS=rabbitmq
+      - RABBITMQ_PORT=5672
+      - TASK_QUEUE=task_queue
     depends_on:
       - rabbitmq
       - mongodb
@@ -23,8 +28,6 @@ services:
     build: ./api
     depends_on:
       - mongodb
-    expose:
-      - 5000
   nginx:
     image: public.ecr.aws/nginx/nginx:latest
     volumes:
