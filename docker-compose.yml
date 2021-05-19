@@ -1,12 +1,7 @@
 services:
   producer:
     build: ./producer
-    environment:
-      - PYTHONUNBUFFERED=1
-      - RABBITMQ_USER=rabbitmq
-      - RABBITMQ_PASS=rabbitmq
-      - RABBITMQ_PORT=5672
-      - TASK_QUEUE=task_queue
+    env_file: ./producer/.env.producer
     depends_on:
       - rabbitmq
       - mongodb
@@ -16,7 +11,7 @@ services:
     environment: 
       - PYTHONUNBUFFERED=1
       - RABBITMQ_USER=rabbitmq
-      - RABBITMQ_PASS=rabbitmq
+      - RABBITMQ_PASS
       - RABBITMQ_PORT=5672
       - TASK_QUEUE=task_queue
     depends_on:
