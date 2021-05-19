@@ -5,6 +5,8 @@ services:
     depends_on:
       - rabbitmq
       - mongodb
+    volumes: 
+      - producer-libs:/usr/local/lib/python3.8/site-packages
     container_name: producer
   consumer:
     build: ./consumer
@@ -14,6 +16,8 @@ services:
       - RABBITMQ_PASS
       - RABBITMQ_PORT=5672
       - TASK_QUEUE=task_queue
+    volumes: 
+      - /usr/local/lib/python3.8/site-packages
     depends_on:
       - rabbitmq
       - mongodb
@@ -48,3 +52,4 @@ services:
 volumes:
   rabbitmq-data:
   mongodb-data:
+  producer-libs:
