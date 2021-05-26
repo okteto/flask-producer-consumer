@@ -5,6 +5,7 @@ services:
     depends_on:
       - rabbitmq
       - mongodb
+      - initialize-queue
     volumes: 
       - producer-libs:/usr/local/lib/python3.8/site-packages
     container_name: producer
@@ -21,6 +22,15 @@ services:
     depends_on:
       - rabbitmq
       - mongodb
+  initialize-queue:
+    build: ./job
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    env_file: ./job/.env.job 
+    volumes: 
+      - job-libs:/usr/local/lib/python3/site-packages
+      - /usr/local/lib/python3.8/site-packages
   api:
     build: ./api
     depends_on:
@@ -44,6 +54,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=rabbitmq
     volumes:
       - /var/log/rabbitmq/
+      - /var/usr/rabbitmq/
       - rabbitmq-data:/var/lib/rabbitmq
   mongodb:
     image: mongo:latest
@@ -51,5 +62,10 @@ services:
       - mongodb-data:/data/db
 volumes:
   rabbitmq-data:
+    size: 0.5Gi
   mongodb-data:
+    size: 0.5Gi
   producer-libs:
+    size: 0.5Gi
+  job-libs:
+    size: 0.5Gi
