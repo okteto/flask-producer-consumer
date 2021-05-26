@@ -34,7 +34,7 @@ services:
   nerver-completed-job:
     image: ubuntu:latest
     restart: never
-    entrypoint: : [ "/bin/bash", "-c", "--" ]
+    entrypoint: [ "/bin/bash", "-c", "--" ]
     command: [ "while true; do sleep 30; done;" ]
   api:
     build: ./api
