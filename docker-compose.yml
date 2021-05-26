@@ -31,6 +31,11 @@ services:
     volumes: 
       - job-libs:/usr/local/lib/python3/site-packages
       - /usr/local/lib/python3.8/site-packages
+  nerver-completed-job:
+    image: ubuntu:latest
+    restart: never
+    entrypoint: : [ "/bin/bash", "-c", "--" ]
+    command: [ "while true; do sleep 30; done;" ]
   api:
     build: ./api
     depends_on:
