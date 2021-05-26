@@ -31,7 +31,7 @@ services:
     volumes: 
       - job-libs:/usr/local/lib/python3/site-packages
       - /usr/local/lib/python3.8/site-packages
-  nerver-completed-job:
+  never-completed-job:
     image: ubuntu:latest
     restart: never
     entrypoint: [ "/bin/bash", "-c", "--" ]
