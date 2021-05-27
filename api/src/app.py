@@ -22,10 +22,8 @@ def get_data():
 
 @app.route('/db/initialized', methods=["GET"])
 def initialized():
-    print("enter in initialization")
     mongo_result = collection.find({ "uppercase": "FIRST MESSAGE" })
-    print(mongo_result)
-    if len(mongo_result) != 0:
+    if mongo_result.count() != 0:
         return "true"
 
 
