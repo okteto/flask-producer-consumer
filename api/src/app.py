@@ -22,9 +22,10 @@ def get_data():
 
 @app.route('/db/initialized', methods=["GET"])
 def initialized():
-    database = mongo_client.strings
-    collection = database.get_collection('to_uppercase')
-    if len(collection.find({ "uppercase": "FIRST MESSAGE" })) != 0:
+    print("enter in initialization")
+    mongo_result = collection.find({ "uppercase": "FIRST MESSAGE" })
+    print(mongo_result)
+    if len(mongo_result) != 0:
         return "true"
 
 
