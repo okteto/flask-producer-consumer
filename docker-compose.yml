@@ -11,6 +11,10 @@ services:
     container_name: producer
   consumer:
     build: ./consumer
+    deploy:
+      resources:
+        limits:
+          memory: 0.5Gi
     environment: 
       - PYTHONUNBUFFERED=1
       - RABBITMQ_USER=rabbitmq
@@ -24,6 +28,10 @@ services:
       - mongodb
   initialize-queue:
     build: ./job
+    deploy:
+      resources:
+        limits:
+          memory: 0.5Gi
     restart: on-failure
     depends_on:
       - rabbitmq
@@ -49,6 +57,10 @@ services:
     container_name: web-svc
   rabbitmq:
     image: rabbitmq:management
+    deploy:
+      resources:
+        limits:
+          memory: 0.5Gi
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
       - RABBITMQ_DEFAULT_PASS=rabbitmq
