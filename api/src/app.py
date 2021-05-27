@@ -20,14 +20,13 @@ def get_data():
     sanitized = json.loads(json_util.dumps(collection.find_one()))
     return sanitized
 
+@app.route('/db/initialized', methods=["GET"])
+def initialized():
+    database = mongo_client.strings
+    collection = database.get_collection('to_uppercase')
+    if len(collection.find({ "uppercase": "FIRST MESSAGE" })) != 0:
+        return "true"
 
-@app.route('/db', methods=["DELETE"])
-def delete_db():
-    try:
-        mongo_client.drop_database('patents')
-        return {'message': 'deleted'}, status.HTTP_200_OK
-    except Exception as ex:
-        return {'message': str(ex)}, status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 if __name__ == '__main__':
