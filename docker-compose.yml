@@ -14,7 +14,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 0.5Gi
+          storage: 0.5Gi
     environment: 
       - PYTHONUNBUFFERED=1
       - RABBITMQ_USER=rabbitmq
@@ -31,7 +31,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 0.5Gi
+          storage: 0.5Gi
     restart: on-failure
     depends_on:
       - rabbitmq
@@ -60,7 +60,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 0.5Gi
+          storage: 0.5Gi
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
       - RABBITMQ_DEFAULT_PASS=rabbitmq
