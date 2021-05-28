@@ -3,9 +3,12 @@ services:
     build: ./producer
     env_file: ./producer/.env.producer
     depends_on:
-      - rabbitmq
-      - mongodb
-      - initialize-queue
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      initialize-queue:
+        condition: service_completed_successfully
     volumes: 
       - producer-libs:/usr/local/lib/python3.8/site-packages
     container_name: producer
@@ -20,13 +23,18 @@ services:
     volumes: 
       - /usr/local/lib/python3.8/site-packages
     depends_on:
-      - rabbitmq
-      - mongodb
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      producer:
+        condition: service_started
   initialize-queue:
     build: ./job
     restart: on-failure
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     env_file: ./job/.env.job 
     volumes: 
       - job-libs:/usr/local/lib/python3/site-packages
@@ -34,9 +42,10 @@ services:
   api:
     build: ./api
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
   nginx:
-    image: public.ecr.aws/nginx/nginx:latest
+    image: nginx
     volumes:
       - ./nginx/nginx.conf:/tmp/nginx.conf
     command: /bin/bash -c "envsubst < /tmp/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
@@ -45,7 +54,8 @@ services:
     ports:
       - 80:80
     depends_on:
-      - api
+      api:
+        condition: service_started
     container_name: web-svc
   rabbitmq:
     image: rabbitmq:management
