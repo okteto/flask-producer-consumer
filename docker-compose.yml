@@ -12,6 +12,8 @@ services:
     volumes: 
       - producer-libs:/usr/local/lib/python3.8/site-packages
     container_name: producer
+    healthcheck:
+      test: ["NONE"]
   consumer:
     build: ./consumer
     environment: 
@@ -31,7 +33,7 @@ services:
         condition: service_started
   initialize-queue:
     build: ./job
-    restart: on-failure
+    restart: never
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -44,6 +46,12 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:5000"]
+      interval: 45s
+      timeout: 5m
+      retries: 5
+      start_period: 30s
   nginx:
     image: nginx
     volumes:
@@ -57,6 +65,12 @@ services:
       api:
         condition: service_started
     container_name: web-svc
+    healthcheck:
+      test: service nginx status || exit 1
+      interval: 45s
+      timeout: 5m
+      retries: 5
+      start_period: 30s
   rabbitmq:
     image: rabbitmq:management
     environment:
@@ -66,16 +80,36 @@ services:
       - /var/log/rabbitmq/
       - /var/usr/rabbitmq/
       - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 45s
+      timeout: 5m
+      retries: 5
+      start_period: 30s
   mongodb:
     image: mongo:latest
     volumes:
       - mongodb-data:/data/db
+    healthcheck:
+      test:
+      - CMD
+      - mongo
+      - --eval
+      - "db.adminCommand('ping')"
+      interval: 30s
+      timeout: 2m
+      retries: 2
+      start_period: 10s
 volumes:
   rabbitmq-data:
-    size: 0.5Gi
+    driver_opts:
+      size: 0.5Gi
   mongodb-data:
-    size: 0.5Gi
+    driver_opts:
+      size: 0.5Gi
   producer-libs:
-    size: 0.5Gi
+    driver_opts:
+      size: 0.5Gi
   job-libs:
-    size: 0.5Gi
+    driver_opts:
+      size: 0.5Gi
