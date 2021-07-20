@@ -14,16 +14,13 @@ jobs:
       uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
+        url: https://staging.okteto.dev
 
-    - name: Create namespace
-      uses: okteto/create-namespace@master
+    - name: Deploy preview environment
+      uses: okteto/deploy-preview@master
       with:
-        namespace: pr-${{ github.event.number }}-jlopezbarb
-
-    - name: Deploy Application
-      uses: okteto/pipeline@master
-      with:
-        namespace: pr-${{ github.event.number }}-jlopezbarb
+        name: pr-${{ github.event.number }}-jlopezbarb
+        type: personal
         timeout: 15m
 
     - name: comment PR
@@ -31,4 +28,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        message: "Preview environment available at https://nginx-pr-${{ github.event.number }}-jlopezbarb.cloud.okteto.net"
+        message: "Preview environment available at https://nginx-pr-${{ github.event.number }}-jlopezbarb.staging.okteto.net"
