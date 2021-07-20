@@ -12,8 +12,6 @@ services:
     volumes: 
       - volume:/usr/local/lib/python3.8/site-packages
     container_name: producer
-    healthcheck:
-      test: ["NONE"]
   consumer:
     build: ./consumer
     environment: 
