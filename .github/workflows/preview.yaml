@@ -1,0 +1,34 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@master
+
+    - name: Login
+      uses: okteto/login@master
+      with:
+        token: ${{ secrets.OKTETO_TOKEN }}
+
+    - name: Create namespace
+      uses: okteto/create-namespace@master
+      with:
+        namespace: pr-${{ github.event.number }}-jlopezbarb
+
+    - name: Deploy Application
+      uses: okteto/pipeline@master
+      with:
+        namespace: pr-${{ github.event.number }}-jlopezbarb
+        timeout: 15m
+
+    - name: comment PR
+      uses: okteto/notify-pr@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        message: "Preview environment available at https://nginx-pr-${{ github.event.number }}-jlopezbarb.cloud.okteto.net"
