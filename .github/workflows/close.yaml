@@ -12,10 +12,11 @@ jobs:
       uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
+        url: https://staging.okteto.dev
 
     - name: Delete namespace
       uses: okteto/destroy-preview@master
       env:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        namespace: pr-${{ github.event.number }}-jlopezbarb
+        name: pr-${{ github.event.number }}-jlopezbarb
