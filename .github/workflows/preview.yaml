@@ -20,5 +20,5 @@ jobs:
       uses: okteto/deploy-preview@master
       with:
         name: pr-${{ github.event.number }}-jlopezbarb
-        type: personal
+        scope: personal
         timeout: 15m
