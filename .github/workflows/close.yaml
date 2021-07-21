@@ -13,6 +13,7 @@ jobs:
       uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
+        url: https://staging.okteto.dev
 
     - name: Delete namespace
       uses: okteto/destroy-preview@master
