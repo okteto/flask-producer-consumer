@@ -1,0 +1,5 @@
+name: consumer
+image: okteto/python:3
+command: bash
+sync:
+  - .:/usr/src/app
