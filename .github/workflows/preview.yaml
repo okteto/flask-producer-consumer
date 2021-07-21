@@ -22,10 +22,3 @@ jobs:
         name: pr-${{ github.event.number }}-jlopezbarb
         scope: personal
         timeout: 15m
-
-    - name: comment PR
-      uses: okteto/notify-pr@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        message: "Preview environment available at https://nginx-pr-${{ github.event.number }}-jlopezbarb.staging.okteto.net"
