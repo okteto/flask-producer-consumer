@@ -1,0 +1,10 @@
+name: api
+command: sh
+image: okteto/python:3
+
+volumes:
+  - /root/.cache/pip
+sync:
+  - .:/app
+forward:
+- 5000:5000
