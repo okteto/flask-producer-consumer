@@ -15,5 +15,7 @@ jobs:
 
     - name: Delete namespace
       uses: okteto/destroy-preview@master
+      env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         namespace: pr-${{ github.event.number }}-jlopezbarb
