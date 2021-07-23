@@ -9,7 +9,7 @@ jobs:
     steps:
 
     - name: Deploy preview environment
-      uses: okteto/deploy-preview@jlopezbarb/add-source-url
+      uses: okteto/deploy-preview@jlopezbarb/update-comment-after-new-push
       env:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        OKTETO_TOKEN: ${{ secrets.OKTETO_TOKEN }}
