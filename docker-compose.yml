@@ -2,6 +2,8 @@ services:
   producer:
     build: ./producer
     env_file: ./producer/.env.producer
+    environment:
+      - RABBITMQ_PASS
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -33,6 +35,8 @@ services:
   initialize-queue:
     build: ./job
     restart: never
+    environment:
+      - RABBITMQ_PASS
     depends_on:
       rabbitmq:
         condition: service_healthy
