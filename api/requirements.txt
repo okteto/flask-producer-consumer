@@ -5,3 +5,4 @@ pika==1.2.0
 Flask_API==2.0
 gunicorn==19.9.0
 werkzeug==0.16.0
+Jinja2==3.0.3
