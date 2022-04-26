@@ -37,6 +37,7 @@ services:
     restart: never
     environment:
       - RABBITMQ_PASS
+      - TASK_QUEUE=task_queue
     depends_on:
       rabbitmq:
         condition: service_healthy
